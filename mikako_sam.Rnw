@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage{graphicx}
+
+\begin{document}
+
+<<setup, echo = FALSE, message = FALSE, warning = FALSE, results = FALSE>>=
+library(rstan)
+library(dplyr)
+
+options("scipen" = 100, "digits" = 3)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = FALSE, out.width = '5.5in')
+
+@
+
+\section*{Problem 1}
+<<p1>>=
+N <- c(10000, 100000,250000, 300000, 450000, 600000, 1000000, 1500000, 2000000, 2500000)
+ps <- NA
+for (i in 1:length(N)){
+  e <- rnorm(N[i], 0, sd = 5)
+  x <- rnorm(N[i], 0, sd = 1)
+  y <- 3 + 0.01*x + e
+  ps[i] <- summary(lm(y ~ x))$coefficients[2,4]
+}
+
+
+
+#hist(y)
+plot(N, ps)
+abline(h = .05)
+
+#cor(x, y)
+@
+
+
+\section*{Problem 2}
+<<p2>>=
+N.p2 <- 1000
+x2 <- rnorm(N.p2, 0, sd = 1)
+x1 <- -2*x2^2 + rnorm(1, 100, 1)
+y <-  -.5*x1 + rnorm(1, 1, 1)
+
+cor(y, x1)
+summary(lm(y ~ x1 + x2))
+@
+
+
+<<p2b>>=
+sleep <- rnorm(N.p2, 6, sd = 1.5)
+hist(sleep)
+coffee <- rbinom(N.p2, size = 1, prob = plogis(sleep - 6))
+hist(coffee)
+money <- 1 - rbinom(N.p2, size = 1, prob = coffee)
+hist(money)
+
+cor(sleep, money)
+
+summary(lm(money ~ coffee + sleep))
+@
+
+\section*{Problem 3}
+<<p3>>=
+lines <- 
+"Game   Scored  N.Attempts
+1   4   5
+2   5   11
+3   5   14
+4   5   12
+5   2   7
+6   7   10
+7   6   14
+8   9   15
+9   4   12
+10  1   4
+11  13  27
+12  5   17
+13  6   12
+14  9   9
+15  7   12
+16  3   10
+17  8   12
+18  1   6
+19  18  39
+20  3   13
+21  10  17
+22  1   6
+23  3   12"
+con <- textConnection(lines)
+shaq <- read.csv(con, sep="")
+shaq
+
+
+shaq_model_stan <- "
+data{
+  int<lower=0> N; 
+  int scored[N];
+  int attempted[N];
+}
+
+parameters{
+  real mu;
+  real<lower=0> sigma;
+  vector[N] alpha_norm;
+}
+
+transformed parameters{
+  real alpha[N];
+  for(n in 1:N)
+    alpha[n] = mu + sigma * alpha_norm[n];
+}
+
+model{
+  alpha_norm ~ normal(0, 1);
+  scored ~ binomial(attempted, inv_logit(alpha));
+}"
+@
+
+\begin{figure}[h!]
+\includegraphics[scale=.1]{/Users/samanthagoerger/Desktop/sml310_mp1/p3a.jpg}
+\end{figure}
+
+% N = game number
+% scored[N] = array of scores indexed by game
+% attempted[N] = array of number of attemps indexed by game
+
+% mu = overall average skill level
+% sigma = overall stdev of skill level, lower bounded by 0
+% vector[N] alpha_norm = "z-score" ~N(0, 1)
+
+% alpha[N] = array of average skill level indexed by game
+% loop samples from ~N(mu, sigma^2)
+
+% alpha_norm ~ N(0, 1)
+% scored sum of bernoulli of attempted using prob of alpha(skill level)
+
+
+
+\end{document}
+
