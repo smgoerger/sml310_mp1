@@ -57,6 +57,9 @@ cor(sleep, money)
 
 summary(lm(money ~ coffee + sleep))
 @
+%Alter that to be more about ivy league university
+%copy the code so they don't have to look for it
+
 
 \section*{Problem 3}
 <<p3>>=
@@ -125,7 +128,7 @@ model{
 
 % mu = overall average skill level
 % sigma = overall stdev of skill level, lower bounded by 0
-% vector[N] alpha_norm = "z-score" ~N(0, 1)
+% vector[N] alpha_norm = "z-score" ~N(0, 1); normalized version of alpha
 
 % alpha[N] = array of average skill level indexed by game
 % loop samples from ~N(mu, sigma^2)
