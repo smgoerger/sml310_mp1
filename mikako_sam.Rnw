@@ -6,6 +6,7 @@
 <<setup, echo = FALSE, message = FALSE, warning = FALSE, results = FALSE>>=
 library(rstan)
 library(dplyr)
+library(tigerstats)
 
 options("scipen" = 100, "digits" = 3)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = FALSE, out.width = '5.5in')
@@ -13,7 +14,9 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = 
 @
 
 \section*{Problem 1}
+
 <<p1>>=
+set.seed(08544)
 N <- c(10000, 100000,250000, 300000, 450000, 600000, 1000000, 1500000, 2000000, 2500000)
 ps <- NA
 for (i in 1:length(N)){
@@ -30,47 +33,58 @@ plot(N, ps)
 abline(h = .05)
 
 #cor(x, y)
+#N[ps < 0.05]
 @
+
+\noindent We set the parameters to $y = 3 + 0.01*x + e$, for which y has a weak relationship with x.  The correlation is \Sexpr{cor(x, y)}. We then ran regressions on samples of increasing size, from \Sexpr{N[1]} to \Sexpr{N[10]} and plotted the p-values for each regression.  As seen in the figure, the relationship is consistently statistically significant after 1000000 samples, which shows that as sample size increases, even weak relationships will be shown as significant.
 
 
 \section*{Problem 2}
-<<p2>>=
+
+<<p2a>>=
+set.seed(08544)
 N.p2 <- 1000
-test_scores <- rnorm(N.p2, 21, sd = 5)
-hist(test_scores)
-undergrad_ivy <- rbinom(N.p2, size = 1, prob = plogis(test_scores - 21))
-hist(undergrad_ivy)
-grad_notIvy <- 1 - rbinom(N.p2, size = 1, prob = undergrad_ivy)
-hist(grad_notIvy)
+#x1 is asian
+x1 <- rbinom(N.p2, size = 1, prob = .056)
+hist(x1)
+#personality "personality"
+x2 <- rnorm(N.p2, (5 - x1*3), 1.5)
+hist(x2)
+#not get into harvard?
+y <- rbinom(N.p2, size = 1, prob = plogis(x2 - 6))
+hist(y)
 
-cor(test_scores, grad_notIvy)
-
-summary(lm(grad_notIvy ~ undergrad_ivy + test_scores))
+summary(lm(y ~ x2 + x1))
+cor(x1, y)
 @
-
+\noindent We completed Problem 2b prior to 2a, which is why the code is nearly identical. The correlation between x1 and y is \Sexpr{cor(x1, y)}, while the coefficient in the regression is \Sexpr{summary(lm(y ~ x2 + x1))$coefficients[3, 1]}, showing that the lurking variable x2 changes the sign.\\
 
 <<p2b>>=
+set.seed(08544)
 N.p2 <- 1000
-test_scores <- rnorm(N.p2, 21, sd = 5)
-hist(test_scores)
-undergrad_ivy <- rbinom(N.p2, size = 1, prob = plogis(test_scores - 21))
-hist(undergrad_ivy)
-grad_notIvy <- 1 - rbinom(N.p2, size = 1, prob = undergrad_ivy)
-hist(grad_notIvy)
+#asian is asian
+asian <- rbinom(N.p2, size = 1, prob = .056)
+hist(asian)
+#personality "personality"
+personality <- rnorm(N.p2, (5 - asian*3), 1.5)
+hist(personality)
+#not get into harvard?
+harvard <- rbinom(N.p2, size = 1, prob = plogis(personality - 6))
+hist(harvard)
 
-cor(test_scores, grad_notIvy)
-
-summary(lm(grad_notIvy ~ undergrad_ivy + test_scores))
+summary(lm(harvard ~ personality + asian))
+cor(asian, harvard)
 @
-%Alter that to be more about ivy league university
-%copy the code so they don't have to look for it
 
+\noindent We chose to comment on the Harvard Circut Court decision on admission of Asian American applicants.  Here, x1 is binomially distributed to mark if the candidate is Asian (5.6\% of the U.S. population is Asian).  x2 is the ``personality'' score as described in the brief, which here is lowered if the applicant is Asian. y is binomially distributed for acceptance to Harvard based on the personality score distribution, which is lower for Asian applicants.  
 
 \section*{Problem 3}
-% p3a
+\subsection*{Part a}
 \begin{figure}[h!]
 \includegraphics[scale=.1]{/Users/samanthagoerger/Desktop/sml310_mp1/p3a.jpg}
 \end{figure}
+
+\subsection*{Part b}
 
 % N = game number
 % scored[N] = array of scores indexed by game
@@ -161,11 +175,13 @@ samples_dat <- as.data.frame(samples)
 @
 
 <<p3bHist>>=
-hist(samples$mu)
-hist(samples$sigma)
-hist(samples$alpha_norm)
+p.3og.mu <- hist(samples$mu)
+p.3og.sigma <- hist(samples$sigma)
+p.3og.alpha <- hist(samples$alpha_norm)
 # mostly doesn't deviate too much, the histogram of alpha norm
+par(p.3og.mu, p.3og.sigma, p.3og.alpha)
 @
+
 
 <<notes>>=
 # partial pooling: each alpha affected by overall alpha
