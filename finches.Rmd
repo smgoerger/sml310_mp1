@@ -1,0 +1,114 @@
+---
+title: "Finches"
+author: "Mikako Inaba"
+date: "10/9/2019"
+output: pdf_document
+---
+  
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+require(Sleuth3)
+require(ggplot2)
+require(tigerstats)
+require(rstan)
+library(Sleuth3)
+
+finches <- case0201
+```
+
+
+
+## Exploratory analysis
+
+The data consists of measurements of the beak depths of 178 finches, some measured before the draught, and some measured after the draught.
+
+This is a bit of an overkill, but let's see from what years the data is:
+
+```{r}
+qplot(finches$Year, bins=3)
+```
+
+Now, let's see how the beak depths differ across the years
+```{r message=FALSE}
+ggplot(finches, aes(x=Depth)) + 
+  geom_histogram(data=subset(finches, Year == 1976), fill = "red", alpha = 0.2) + 
+  geom_histogram(data=subset(finches, Year == 1978), fill = "blue", alpha = 0.2)
+```
+
+Box plots and density plots can also be instructive
+```{r boxdensityplots}
+bwplot(Year ~ Depth, data = finches)
+densityplot(~Depth, groups = Year, auto.key = TRUE, data = finches)
+```
+
+<!-------------------------------------------------------------------------->
+  
+  ## Difference of Means: t-test
+  
+  
+```{r}
+y1976 <- subset(finches, Year == 1976)$Depth
+y1978 <- subset(finches, Year == 1978)$Depth
+t.test(y1976, y1978, var.equal = F )
+```
+
+
+```{r bayes}
+finch_model_stan <- "
+data{
+int<lower=0> N1; //number of points in example 1
+int<lower=0> N2; //number of points in example 2
+real sample1[N1]; 
+real sample2[N2]; 
+}
+
+parameters{
+real mu1;
+real mu2;
+real<lower=0> sigma1;
+real<lower=0> sigma2;
+}
+
+model{
+sample1 ~ normal(mu1, sigma1);
+sample2 ~ normal(mu2, sigma2);
+}"
+
+adaptSteps = 1000            # Number of steps to "tune" the samplers.
+burnInSteps = 5000           # Number of steps to "burn-in" the samplers.
+nChains = 3                  # Number of chains to run.
+numSavedSteps=12000          # Total number of steps in chains to save.
+thinSteps=10                 # Number of steps to "thin" (1=keep every step).
+
+finch_model <- stan_model(model_code = finch_model_stan, model_name = "finch_model")
+finch_fit <- sampling(object=finch_model,
+                      data = list(sample1=y1976, sample2=y1978,N1=length(y1976),N2=length(y1978)),
+                      chains = nChains ,
+                      iter = ( ceiling(numSavedSteps/nChains)*thinSteps
+                               +burnInSteps ) , 
+                      warmup = burnInSteps , 
+                      thin = thinSteps ,
+                      init = "random" ) 
+
+samples <- extract(finch_fit)
+```
+
+Let's look at the posterior distribution for `mu1`
+
+```{r}
+hist(samples$mu1)
+```
+
+(Are the variances equal?)
+
+```{r}
+hist(samples$sigma1-samples$sigma2)
+```
+
+So what about the means?
+
+```{r}
+hist(samples$mu1-samples$mu2)
+mean(samples$mu1-samples$mu2 >= 0)
+```
