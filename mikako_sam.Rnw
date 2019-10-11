@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{lscape}
 
 \begin{document}
 
@@ -7,10 +9,10 @@
 library(rstan)
 library(dplyr)
 library(tigerstats)
-setwd("~/Desktop")
+# setwd("~/Desktop")
 
 options("scipen" = 100, "digits" = 3)
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = FALSE, out.width = '5.5in')
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = FALSE, out.width = '4in')
 
 @
 
@@ -43,7 +45,11 @@ plot(x[1:100], y[1:100],
      ylab = '100 y')
 
 #hist(y)
-plot(N, ps)
+plot(N, ps,
+     main = "P-values vs Number of observations",
+     ylab = "p-values",
+     xlab = "num observations"
+)
 abline(h = .05)
 
 
@@ -91,12 +97,12 @@ summary(lm(harvard ~ personality + asian))
 cor(asian, harvard)
 @
 
-\noindent We chose to comment on the Harvard Circut Court decision on admission of Asian American applicants.  Here, x1 is binomially distributed to mark if the candidate is Asian (5.6\% of the U.S. population is Asian).  x2 is the ``personality'' score as described in the brief, which here is lowered if the applicant is Asian. y is binomially distributed for acceptance to Harvard based on the personality score distribution, which is lower for Asian applicants.  
+\noindent We chose to comment on the Harvard Circut Court decision on admission of Asian American applicants.  Here, x1 is binomially distributed to mark if the candidate is Asian (5.6\% of the U.S. population is Asian).  x2 is the ``personality'' score as described in the brief, which here is lowered if the applicant is Asian. y is the probability of acceptance to Harvard based on the personality score distribution, which is lower for Asian applicants. \pagebreak
 
 \section*{Problem 3}
 \subsection*{Part a}
 \begin{figure}[h!]
-% \includegraphics[scale=.1]{/sml310_mp1/p3a.jpg}
+\includegraphics[scale=.1]{/Users/mikakoinaba/Desktop/sml310_mp1/p3a.jpg}
 \end{figure}
 
 \subsection*{Part b}
@@ -190,27 +196,50 @@ shaq_fit <- sampling(object=shaq_model,
 samplesPartial <- extract(shaq_fit)
 
 # posterior distribution for each parameter
-hist(samplesPartial$mu) # prob distribution of mu
-hist(samplesPartial$sigma) # prob distribution of sigma
-hist(samplesPartial$alpha[, 1]) # prob distribution of alpha_1
-hist(samplesPartial$alpha[, 2]) # prob distribution of alpha_2
+# hist(samplesPartial$mu) # prob distribution of mu
+# hist(samplesPartial$sigma) # prob distribution of sigma
+# hist(samplesPartial$alpha[, 1]) # prob distribution of alpha_1
+# hist(samplesPartial$alpha[, 2]) # prob distribution of alpha_2
 # 95% of data lies within 2 stdev of the mean 0 --> 
 good <- plogis(mean(samplesPartial$mu) + 2 * mean(samplesPartial$sigma))
 bad <- plogis(mean(samplesPartial$mu) - 2 * mean(samplesPartial$sigma))
 good
 bad
+
+N <- 23
+conf_data <- data.frame(games = 1:N, mean = NA, upper = NA, lower = NA)
+
+for (i in 1:N){
+  conf_data[i, "mean"] = mean(samplesPartial$alpha[, i])
+  conf_data[i, "upper"] = mean(samplesPartial$alpha[, i]) + 2 * sd(samplesPartial$alpha[, i])
+  conf_data[i, "lower"] = mean(samplesPartial$alpha[, i]) - 2 * sd(samplesPartial$alpha[, i])
+}
+
+
+ggplot(conf_data) +
+  geom_segment(aes(x=lower,y=games,xend=upper,yend=games),
+               arrow=arrow(length=unit(0.1,"cm"),
+                           ends='both'),size=.1) +
+  labs(x = "Confidence Interval", y = "Game",
+       title = "95% predictive interval - partial pooling")
+
+#ggplot(conf_data, aes(x = games, y = mean)) +  
+ # geom_errorbar(aes(ymin=lower, ymax=upper))
+
+
 @
 
 <<p3bHist>>=
-p.3og.mu <- hist(samplesPartial$mu)
-p.3og.sigma <- hist(samplesPartial$sigma)
-p.3og.alpha <- hist(samplesPartial$alpha)
-# par(p.3og.mu, p.3og.sigma, p.3og.alpha)
+par(mfrow=c(2, 2))
+hist(samplesPartial$mu, main = "mu")
+hist(samplesPartial$sigma, main = "sigma")
+hist(samplesPartial$alpha[, 1], main =  "game 1")
+hist(samplesPartial$alpha[, 2], main = "game 2")
 @
 
 <<p3cComplete, include=FALSE, echo= FALSE, eval = FALSE>>=
 # complete pooling: each alpha is mu (sigma == 0)
-shaq_model_stan <- "
+shaq_model_stanComplete <- "
 data{
   // data we supply
   int<lower=0> N; // game number, must be positive
@@ -235,14 +264,8 @@ model{
   scored ~ binomial(attempted, inv_logit(alpha)); // scored modeled using num attempted & 0 - 1 of alpha
 }"
 
-adaptSteps = 1000            # Number of steps to "tune" the samplers.
-burnInSteps = 5000           # Number of steps to "burn-in" the samplers.
-nChains = 3                  # Number of chains to run.
-numSavedSteps=12000          # Total number of steps in chains to save.
-thinSteps=10                 # Number of steps to "thin" (1=keep every step).
-
-shaq_model <- stan_model(model_code = shaq_model_stan, model_name = "shaq_model")
-shaq_fit <- sampling(object=shaq_model,
+shaq_modelComplete <- stan_model(model_code = shaq_model_stanComplete, model_name = "shaq_modelComplete")
+shaqComplete_fit <- sampling(object=shaq_modelComplete,
                       data = list(N=nrow(shaq), scored=shaq$Scored, attempted = shaq$N.Attempts),
                       chains = nChains ,
                       iter = ( ceiling(numSavedSteps/nChains)*thinSteps
@@ -251,14 +274,21 @@ shaq_fit <- sampling(object=shaq_model,
                       thin = thinSteps ,
                       init = "random" ) 
 
-samplesComplete <- extract(shaq_fit)
+samplesComplete <- extract(shaqComplete_fit)
+
+sigma <- rep(0, 12000)
+
+par(mfrow=c(2, 2))
+hist(samplesComplete$mu, main = "mu")
+# hist(sigma)
+barplot(length(sigma), sigma, main = "sigma", names.arg = "0")
+hist(samplesComplete$alpha[, 1], main =  "game 1")
+hist(samplesComplete$alpha[, 2], main = "game 2") # they're the same
 @
 
 <<p3cCompleteHist>>=
-hist(samplesComplete$mu)
 # plot an uniform dist of 0 for sigma
-hist(samplesComplete$alpha[, 1])
-hist(samplesComplete$alpha[, 2]) # they're all the same
+
 @
 
 <<p3cNo, include=FALSE, echo= FALSE, eval = FALSE>>=
@@ -306,8 +336,12 @@ samplesNo <- extract(shaq_fit)
 @
 
 <<p3cNoHist>>=
+# plot 20 for sigma
+sigma <- rep(0, 12000) # it looked weird
+
+par(mfrow=c(2, 2))
 hist(samplesNo$mu)
-# plot an uniform dist of 99 for sigma
+barplot(length(sigma), sigma, main = "sigma", names.arg = "20") 
 hist(samplesNo$alpha[, 1])
 hist(samplesNo$alpha[, 2]) # they're all different
 @
