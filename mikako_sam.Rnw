@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = 
 <<p1>>=
 set.seed(08544)
 # N <- c(10000, 100000, 250000, 300000, 450000, 600000, 1000000, 1500000, 2000000, 2500000)
-N <- c(10000, 100000, 250000, 300000, 450000, 600000, 1000000)
+N <- c(10000, 100000, 250000, 300000, 450000, 600000)
 
 ps <- c()
 x <- c()
@@ -37,12 +37,14 @@ for (i in 1:length(N)){
 }
 
 cor(x,y)
+plot(x[1:100], y[1:100],
+     main = "Weak relationship between x and y",
+     xlab = "100 x",
+     ylab = '100 y')
 
 #hist(y)
 plot(N, ps)
 abline(h = .05)
-
-plot(meanx, meany)
 
 
 #cor(x, y)
@@ -59,13 +61,13 @@ set.seed(08544)
 N.p2 <- 1000
 #x1 is asian
 x1 <- rbinom(N.p2, size = 1, prob = .056)
-hist(x1)
+#hist(x1)
 #personality "personality"
 x2 <- rnorm(N.p2, (5 - x1*3), 1.5)
-hist(x2)
+#hist(x2)
 #not get into harvard?
-y <- rbinom(N.p2, size = 1, prob = plogis(x2 - 6))
-hist(y)
+y <- plogis(x2 - 6)
+#hist(y)
 
 summary(lm(y ~ x2 + x1))
 cor(x1, y)
@@ -77,13 +79,13 @@ set.seed(08544)
 N.p2 <- 1000
 #asian is asian
 asian <- rbinom(N.p2, size = 1, prob = .056)
-hist(asian)
+#hist(asian)
 #personality "personality"
 personality <- rnorm(N.p2, (5 - asian*3), 1.5)
-hist(personality)
+#hist(personality)
 #not get into harvard?
-harvard <- rbinom(N.p2, size = 1, prob = plogis(personality - 6))
-hist(harvard)
+harvard <- plogis(personality - 6)
+#hist(harvard)
 
 summary(lm(harvard ~ personality + asian))
 cor(asian, harvard)
@@ -178,12 +180,12 @@ thinSteps=10                 # Number of steps to "thin" (1=keep every step).
 shaq_model <- stan_model(model_code = shaq_model_stan, model_name = "shaq_model")
 shaq_fit <- sampling(object=shaq_model,
                       data = list(N=nrow(shaq), scored=shaq$Scored, attempted = shaq$N.Attempts),
-                      chains = nChains ,
-                      iter = ( ceiling(numSavedSteps/nChains)*thinSteps
-                               +burnInSteps ) , 
-                      warmup = burnInSteps , 
-                      thin = thinSteps ,
-                      init = "random" ) 
+                      chains = nChains,
+                      iter = (ceiling(numSavedSteps/nChains)*thinSteps
+                               + burnInSteps), 
+                      warmup = burnInSteps, 
+                      thin = thinSteps,
+                      init = "random") 
 
 samplesPartial <- extract(shaq_fit)
 

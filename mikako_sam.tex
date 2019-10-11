@@ -61,33 +61,19 @@
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 \includegraphics[width=5.5in]{figure/p1-1} 
 
+\includegraphics[width=5.5in]{figure/p1-2} 
+
 \end{knitrout}
 
-\noindent We set the parameters to $y = 3 + 0.01*x + e$, for which y has a weak relationship with x.  The correlation is 0.002. We then ran regressions on samples of increasing size, from 10000 to 2500000 and plotted the p-values for each regression.  As seen in the figure, the relationship is consistently statistically significant after 1000000 samples, which shows that as sample size increases, even weak relationships will be shown as significant.
+\noindent We set the parameters to $y = 3 + 0.01*x + e$, for which y has a weak relationship with x.  The correlation is 0.009. We then ran regressions on samples of increasing size, from 10000 to NA and plotted the p-values for each regression.  As seen in the figure, the relationship is consistently statistically significant after 1000000 samples, which shows that as sample size increases, even weak relationships will be shown as significant.
 
 
 \section*{Problem 2}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=5.5in]{figure/p2a-1} 
 
-\includegraphics[width=5.5in]{figure/p2a-2} 
+\noindent We completed Problem 2b prior to 2a, which is why the code is nearly identical. The correlation between x1 and y is -0.252, while the coefficient in the regression is 0.191, showing that the lurking variable x2 changes the sign.\\
 
-\includegraphics[width=5.5in]{figure/p2a-3} 
 
-\end{knitrout}
-\noindent We completed Problem 2b prior to 2a, which is why the code is nearly identical. The correlation between x1 and y is -0.165, while the coefficient in the regression is 0.108, showing that the lurking variable x2 changes the sign.\\
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=5.5in]{figure/p2b-1} 
-
-\includegraphics[width=5.5in]{figure/p2b-2} 
-
-\includegraphics[width=5.5in]{figure/p2b-3} 
-
-\end{knitrout}
 
 \noindent We chose to comment on the Harvard Circut Court decision on admission of Asian American applicants.  Here, x1 is binomially distributed to mark if the candidate is Asian (5.6\% of the U.S. population is Asian).  x2 is the ``personality'' score as described in the brief, which here is lowered if the applicant is Asian. y is binomially distributed for acceptance to Harvard based on the personality score distribution, which is lower for Asian applicants.  
 
@@ -112,33 +98,70 @@
 % alpha_norm ~ N(0, 1)
 % scored sum of bernoulli of attempted using prob of alpha(skill level)
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in compileCode(f, code, language = language, verbose = verbose): Compilation ERROR, function(s)/method(s) not created! /bin/sh: /usr/local/Cellar/gcc/8.2.0/bin/g++-7: No such file or directory\\\#\# make: *** [file1270a3d865789.o] Error 127}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in sink(type = "{}output"{}): invalid connection}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in sampling(object = shaq\_model, data = list(N = nrow(shaq), scored = shaq\$Scored, : object 'shaq\_model' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in extract(shaq\_fit): object 'shaq\_fit' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesPartial\$mu): object 'samplesPartial' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesPartial\$sigma): object 'samplesPartial' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesPartial\$alpha[, 1]): object 'samplesPartial' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesPartial\$alpha[, 2]): object 'samplesPartial' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in mean(samplesPartial\$mu): object 'samplesPartial' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in mean(samplesPartial\$mu): object 'samplesPartial' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'good' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'bad' not found}}\end{kframe}
+\end{knitrout}
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=5.5in]{figure/p3bHist-1} 
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
-\includegraphics[width=5.5in]{figure/p3bHist-2} 
 
-\includegraphics[width=5.5in]{figure/p3bHist-3} 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesPartial\$mu): object 'samplesPartial' not found}}
 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesPartial\$sigma): object 'samplesPartial' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesPartial\$alpha): object 'samplesPartial' not found}}\end{kframe}
 \end{knitrout}
 
 
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesComplete\$mu): object 'samplesComplete' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesComplete\$alpha[, 1]): object 'samplesComplete' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesComplete\$alpha[, 2]): object 'samplesComplete' not found}}\end{kframe}
+\end{knitrout}
 
 
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=5.5in]{figure/p3cCompleteHist-1} 
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
-\includegraphics[width=5.5in]{figure/p3cCompleteHist-2} 
 
-\includegraphics[width=5.5in]{figure/p3cCompleteHist-3} 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesNo\$mu): object 'samplesNo' not found}}
 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesNo\$alpha[, 1]): object 'samplesNo' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in hist(samplesNo\$alpha[, 2]): object 'samplesNo' not found}}\end{kframe}
 \end{knitrout}
-
 \end{document}
 
