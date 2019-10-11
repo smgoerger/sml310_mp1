@@ -7,6 +7,7 @@
 library(rstan)
 library(dplyr)
 library(tigerstats)
+setwd("~/Desktop")
 
 options("scipen" = 100, "digits" = 3)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = FALSE, out.width = '5.5in')
@@ -17,20 +18,32 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = 
 
 <<p1>>=
 set.seed(08544)
-N <- c(10000, 100000,250000, 300000, 450000, 600000, 1000000, 1500000, 2000000, 2500000)
-ps <- NA
+# N <- c(10000, 100000, 250000, 300000, 450000, 600000, 1000000, 1500000, 2000000, 2500000)
+N <- c(10000, 100000, 250000, 300000, 450000, 600000, 1000000)
+
+ps <- c()
+x <- c()
+meanx <- c()
+meany <- c()
+y <- c()
 for (i in 1:length(N)){
-  e <- rnorm(N[i], 0, sd = 5)
-  x <- rnorm(N[i], 0, sd = 1)
+  e <- rnorm(N[i], 0, sd = 0.01)
+  x <- rnorm(N[i], 0, sd = 0.01)
   y <- 3 + 0.01*x + e
+  meanx <- c(meanx, mean(x))
+  meany <- c(meany, mean(y))
+  summary(lm(y ~ x))
   ps[i] <- summary(lm(y ~ x))$coefficients[2,4]
 }
 
-
+cor(x,y)
 
 #hist(y)
 plot(N, ps)
 abline(h = .05)
+
+plot(meanx, meany)
+
 
 #cor(x, y)
 #N[ps < 0.05]
@@ -81,7 +94,7 @@ cor(asian, harvard)
 \section*{Problem 3}
 \subsection*{Part a}
 \begin{figure}[h!]
-\includegraphics[scale=.1]{/Users/samanthagoerger/Desktop/sml310_mp1/p3a.jpg}
+% \includegraphics[scale=.1]{/sml310_mp1/p3a.jpg}
 \end{figure}
 
 \subsection*{Part b}
@@ -129,7 +142,125 @@ con <- textConnection(lines)
 shaq <- read.csv(con, sep="")
 shaq
 
+# partial pooling: each alpha affected by overall alpha
+shaq_model_stan <- "
+data{
+  // data we supply
+  int<lower=0> N; // game number, must be positive
+  int scored[N]; // array of scores indexed by game
+  int attempted[N]; // array of number of attempts indexed by games
+}
 
+parameters{
+  real mu; // overall average skill level
+  real<lower=0> sigma; // overall stdev of skill level, lower bounded by 0
+  vector[N] alpha_norm; // array of 'zscores'
+}
+
+transformed parameters{
+  real alpha[N]; // array of average skill level indexed by game
+                 // produced using alpha_norms
+  for(n in 1:N)
+    alpha[n] = mu + sigma * alpha_norm[n];
+}
+
+model{
+  alpha_norm ~ normal(0, 1);
+  scored ~ binomial(attempted, inv_logit(alpha)); // scored modeled using num attempted & 0 - 1 of alpha
+}"
+
+adaptSteps = 1000            # Number of steps to "tune" the samplers.
+burnInSteps = 5000           # Number of steps to "burn-in" the samplers.
+nChains = 3                  # Number of chains to run.
+numSavedSteps=12000          # Total number of steps in chains to save.
+thinSteps=10                 # Number of steps to "thin" (1=keep every step).
+
+shaq_model <- stan_model(model_code = shaq_model_stan, model_name = "shaq_model")
+shaq_fit <- sampling(object=shaq_model,
+                      data = list(N=nrow(shaq), scored=shaq$Scored, attempted = shaq$N.Attempts),
+                      chains = nChains ,
+                      iter = ( ceiling(numSavedSteps/nChains)*thinSteps
+                               +burnInSteps ) , 
+                      warmup = burnInSteps , 
+                      thin = thinSteps ,
+                      init = "random" ) 
+
+samplesPartial <- extract(shaq_fit)
+
+# posterior distribution for each parameter
+hist(samplesPartial$mu) # prob distribution of mu
+hist(samplesPartial$sigma) # prob distribution of sigma
+hist(samplesPartial$alpha[, 1]) # prob distribution of alpha_1
+hist(samplesPartial$alpha[, 2]) # prob distribution of alpha_2
+# 95% of data lies within 2 stdev of the mean 0 --> 
+good <- plogis(mean(samplesPartial$mu) + 2 * mean(samplesPartial$sigma))
+bad <- plogis(mean(samplesPartial$mu) - 2 * mean(samplesPartial$sigma))
+good
+bad
+@
+
+<<p3bHist>>=
+p.3og.mu <- hist(samplesPartial$mu)
+p.3og.sigma <- hist(samplesPartial$sigma)
+p.3og.alpha <- hist(samplesPartial$alpha)
+# par(p.3og.mu, p.3og.sigma, p.3og.alpha)
+@
+
+<<p3cComplete, include=FALSE, echo= FALSE, eval = FALSE>>=
+# complete pooling: each alpha is mu (sigma == 0)
+shaq_model_stan <- "
+data{
+  // data we supply
+  int<lower=0> N; // game number, must be positive
+  int scored[N]; // array of scores indexed by game
+  int attempted[N]; // array of number of attempts indexed by games
+}
+
+parameters{
+  real mu; // overall average skill level
+  vector[N] alpha_norm; // array of 'zscores'
+}
+
+transformed parameters{
+  real alpha[N]; // array of average skill level indexed by game
+                 // produced using alpha_norms
+  for(n in 1:N)
+    alpha[n] = mu + 0 * alpha_norm[n];
+}
+
+model{
+  alpha_norm ~ normal(0, 1);
+  scored ~ binomial(attempted, inv_logit(alpha)); // scored modeled using num attempted & 0 - 1 of alpha
+}"
+
+adaptSteps = 1000            # Number of steps to "tune" the samplers.
+burnInSteps = 5000           # Number of steps to "burn-in" the samplers.
+nChains = 3                  # Number of chains to run.
+numSavedSteps=12000          # Total number of steps in chains to save.
+thinSteps=10                 # Number of steps to "thin" (1=keep every step).
+
+shaq_model <- stan_model(model_code = shaq_model_stan, model_name = "shaq_model")
+shaq_fit <- sampling(object=shaq_model,
+                      data = list(N=nrow(shaq), scored=shaq$Scored, attempted = shaq$N.Attempts),
+                      chains = nChains ,
+                      iter = ( ceiling(numSavedSteps/nChains)*thinSteps
+                               +burnInSteps ) , 
+                      warmup = burnInSteps , 
+                      thin = thinSteps ,
+                      init = "random" ) 
+
+samplesComplete <- extract(shaq_fit)
+@
+
+<<p3cCompleteHist>>=
+hist(samplesComplete$mu)
+# plot an uniform dist of 0 for sigma
+hist(samplesComplete$alpha[, 1])
+hist(samplesComplete$alpha[, 2]) # they're all the same
+@
+
+<<p3cNo, include=FALSE, echo= FALSE, eval = FALSE>>=
+# no pooling: each alpha random (sigma == inf or 99)
 shaq_model_stan <- "
 data{
   int<lower=0> N; 
@@ -139,14 +270,13 @@ data{
 
 parameters{
   real mu;
-  real<lower=0> sigma;
   vector[N] alpha_norm;
 }
 
 transformed parameters{
   real alpha[N];
   for(n in 1:N)
-    alpha[n] = mu + sigma * alpha_norm[n];
+    alpha[n] = mu + 20 * alpha_norm[n];
 }
 
 model{
@@ -170,94 +300,14 @@ shaq_fit <- sampling(object=shaq_model,
                       thin = thinSteps ,
                       init = "random" ) 
 
-samples <- extract(shaq_fit)
-samples_dat <- as.data.frame(samples)
+samplesNo <- extract(shaq_fit)
 @
 
-<<p3bHist>>=
-p.3og.mu <- hist(samples$mu)
-p.3og.sigma <- hist(samples$sigma)
-p.3og.alpha <- hist(samples$alpha_norm)
-# mostly doesn't deviate too much, the histogram of alpha norm
-par(p.3og.mu, p.3og.sigma, p.3og.alpha)
+<<p3cNoHist>>=
+hist(samplesNo$mu)
+# plot an uniform dist of 99 for sigma
+hist(samplesNo$alpha[, 1])
+hist(samplesNo$alpha[, 2]) # they're all different
 @
-
-
-<<notes>>=
-# partial pooling: each alpha affected by overall alpha
-# parameters{
-#  real mu;
-#  real<lower=0> sigma;
-#  vector[N] alpha_norm;
-# }
-#
-# complete pooling: each alpha the same
-# parameters{
-#  real mu;
-#  real<lower=0> sigma; // SIGMA SHOULD BE 0 //
-#  vector[N] alpha_norm;
-# }
-# 
-# no pooling: each alpha the same
-# parameters{
-#  real mu;
-#  real<lower=0> sigma; // SIGMA SHOULD BE infinite in theory? //
-#  vector[N] alpha_norm;
-# }
-@
-
-
-<<p3cComplete>>=
-shaq_model_stanComplete <- "
-data{
-  int<lower=0> N; 
-  int scored[N];
-  int attempted[N];
-}
-
-parameters{
-  real mu;
-  real sigma;
-  vector[N] alpha_norm;
-}
-
-transformed parameters{
-  sigma = 0;
-  real alpha[N];
-  for(n in 1:N)
-    alpha[n] = mu + sigma * alpha_norm[n];
-}
-
-model{
-  alpha_norm ~ normal(0, 1);
-  scored ~ binomial(attempted, inv_logit(alpha));
-}"
-
-adaptSteps = 1000            # Number of steps to "tune" the samplers.
-burnInSteps = 5000           # Number of steps to "burn-in" the samplers.
-nChains = 3                  # Number of chains to run.
-numSavedSteps=12000          # Total number of steps in chains to save.
-thinSteps=10                 # Number of steps to "thin" (1=keep every step).
-
-shaq_model <- stan_model(model_code = shaq_model_stanComplete, model_name = "shaq_model")
-shaq_fit <- sampling(object=shaq_model,
-                      data = list(N=nrow(shaq), scored=shaq$Scored, attempted = shaq$N.Attempts),
-                      chains = nChains ,
-                      iter = ( ceiling(numSavedSteps/nChains)*thinSteps
-                               +burnInSteps ) , 
-                      warmup = burnInSteps , 
-                      thin = thinSteps ,
-                      init = "random" ) 
-
-samples <- extract(shaq_fit)
-samples_dat <- as.data.frame(samples)
-@
-
-<<p3cCompleteHist>>=
-hist(samples$mu)
-hist(samples$sigma)
-hist(samples$alpha_norm)
-@
-
 \end{document}
 

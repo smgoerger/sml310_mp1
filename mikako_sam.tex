@@ -56,16 +56,28 @@
 
 
 \section*{Problem 1}
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 \includegraphics[width=5.5in]{figure/p1-1} 
 
 \end{knitrout}
 
+\noindent We set the parameters to $y = 3 + 0.01*x + e$, for which y has a weak relationship with x.  The correlation is 0.002. We then ran regressions on samples of increasing size, from 10000 to 2500000 and plotted the p-values for each regression.  As seen in the figure, the relationship is consistently statistically significant after 1000000 samples, which shows that as sample size increases, even weak relationships will be shown as significant.
+
 
 \section*{Problem 2}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=5.5in]{figure/p2a-1} 
 
+\includegraphics[width=5.5in]{figure/p2a-2} 
+
+\includegraphics[width=5.5in]{figure/p2a-3} 
+
+\end{knitrout}
+\noindent We completed Problem 2b prior to 2a, which is why the code is nearly identical. The correlation between x1 and y is -0.165, while the coefficient in the regression is 0.108, showing that the lurking variable x2 changes the sign.\\
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
@@ -77,12 +89,56 @@
 
 \end{knitrout}
 
+\noindent We chose to comment on the Harvard Circut Court decision on admission of Asian American applicants.  Here, x1 is binomially distributed to mark if the candidate is Asian (5.6\% of the U.S. population is Asian).  x2 is the ``personality'' score as described in the brief, which here is lowered if the applicant is Asian. y is binomially distributed for acceptance to Harvard based on the personality score distribution, which is lower for Asian applicants.  
+
 \section*{Problem 3}
-
-
+\subsection*{Part a}
 \begin{figure}[h!]
-\includegraphics[scale=.1]{/Users/samanthagoerger/Desktop/sml310_mp1/p3a.jpg}
+% \includegraphics[scale=.1]{/sml310_mp1/p3a.jpg}
 \end{figure}
+
+\subsection*{Part b}
+
+% N = game number
+% scored[N] = array of scores indexed by game
+% attempted[N] = array of number of attemps indexed by game
+
+% mu = overall average skill level
+% sigma = overall stdev of skill level, lower bounded by 0
+
+% alpha[N] = array of average skill level indexed by game
+% loop samples from ~N(mu, sigma^2)
+
+% alpha_norm ~ N(0, 1)
+% scored sum of bernoulli of attempted using prob of alpha(skill level)
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=5.5in]{figure/p3bHist-1} 
+
+\includegraphics[width=5.5in]{figure/p3bHist-2} 
+
+\includegraphics[width=5.5in]{figure/p3bHist-3} 
+
+\end{knitrout}
+
+
+
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=5.5in]{figure/p3cCompleteHist-1} 
+
+\includegraphics[width=5.5in]{figure/p3cCompleteHist-2} 
+
+\includegraphics[width=5.5in]{figure/p3cCompleteHist-3} 
+
+\end{knitrout}
 
 \end{document}
 
