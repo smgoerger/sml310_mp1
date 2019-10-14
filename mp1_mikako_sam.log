@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  11 OCT 2019 10:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  14 OCT 2019 10:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**mikako_sam.tex
-(./mikako_sam.tex
+**mp1_mikako_sam.tex
+(./mp1_mikako_sam.tex
 LaTeX2e <2018-04-01> patch level 2
 Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/base/article.cls
@@ -92,28 +92,25 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen116
 \Gm@dimlist=\toks15
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/lscape.sty
-Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
-)
 (/usr/local/texlive/2018/texmf-dist/tex/latex/upquote/upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
-(./mikako_sam.aux)
-\openout1 = `mikako_sam.aux'.
+(./mp1_mikako_sam.aux)
+\openout1 = `mp1_mikako_sam.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
 
 (/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -214,131 +211,152 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package color Info: Redefining color shadecolor on input line 63.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 60.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 60.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 60.
+Package color Info: Redefining color shadecolor on input line 64.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 65.
-
-Overfull \hbox (9.72693pt too wide) in paragraph at lines 66--66
-[][]\OT1/cmtt/m/it/10 # N <- c(10000, 100000, 250000, 300000, 450000, 600000, 1
-000000, 1500000, 2000000, 2500000)[][] 
- []
-
-LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 74.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 66.
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 72.
 
 (/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/omscmtt.fd
 File: omscmtt.fd 
 )
 LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 74.
-<figure/p1-1.pdf, id=1, 505.89pt x 505.89pt>
-File: figure/p1-1.pdf Graphic file (type pdf)
-<use figure/p1-1.pdf>
-Package pdftex.def Info: figure/p1-1.pdf  used on input line 91.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 72.
+Package color Info: Redefining color shadecolor on input line 87.
+<figure/p1Plot-1.pdf, id=1, 505.89pt x 505.89pt>
+File: figure/p1Plot-1.pdf Graphic file (type pdf)
+<use figure/p1Plot-1.pdf>
+Package pdftex.def Info: figure/p1Plot-1.pdf  used on input line 96.
 (pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
 
 [1
 
-{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./figur
-e/p1-1.pdf>]
-<figure/p1-2.pdf, id=18, 505.89pt x 505.89pt>
-File: figure/p1-2.pdf Graphic file (type pdf)
-<use figure/p1-2.pdf>
-Package pdftex.def Info: figure/p1-2.pdf  used on input line 102.
+{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<figure/p1Plot-2.pdf, id=13, 505.89pt x 505.89pt>
+File: figure/p1Plot-2.pdf Graphic file (type pdf)
+<use figure/p1Plot-2.pdf>
+Package pdftex.def Info: figure/p1Plot-2.pdf  used on input line 107.
 (pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+
+[2 <./figure/p1Plot-1.pdf>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 110.
+(Font)              <7> on input line 112.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 110.
-Package color Info: Redefining color shadecolor on input line 116.
- [2 <./figure/p1-2.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
+(Font)              <5> on input line 112.
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
 
  []
 
-Package color Info: Redefining color shadecolor on input line 138.
-[3]
-</Users/mikakoinaba/Desktop/sml310_mp1/p3a.jpg, id=32, 4047.12pt x 3035.34pt>
+Package color Info: Redefining color shadecolor on input line 117.
+
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
+
+ []
+
+Package color Info: Redefining color shadecolor on input line 132.
+[3 <./figure/p1Plot-2.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 143--144
+
+ []
+
+</Users/mikakoinaba/Desktop/sml310_mp1/p3a.jpg, id=34, 4047.12pt x 3035.34pt>
 File: /Users/mikakoinaba/Desktop/sml310_mp1/p3a.jpg Graphic file (type jpg)
 <use /Users/mikakoinaba/Desktop/sml310_mp1/p3a.jpg>
 Package pdftex.def Info: /Users/mikakoinaba/Desktop/sml310_mp1/p3a.jpg  used on
- input line 163.
-(pdftex.def)             Requested size: 404.73572pt x 303.55179pt.
-Package color Info: Redefining color shadecolor on input line 182.
-
-Overfull \hbox (76.24022pt too wide) in paragraph at lines 238--238
-[]  \OT1/cmtt/m/n/10 scored ~ binomial(attempted, inv_logit(alpha)); // scored 
-modeled using num attempted & 0 - 1 of alpha[] 
- []
-
-
-Overfull \hbox (39.49054pt too wide) in paragraph at lines 248--248
-[]                      []\OT1/cmtt/m/n/10 data[] []=[] []list[][]([][]N[][]=[]
-[]nrow[][](shaq),[] []scored[][]=shaq[][]$[][]Scored,[] []attempted[] []= shaq[
-][]$[][]N.Attempts),[][] 
- []
-
-
-Overfull \hbox (18.49072pt too wide) in paragraph at lines 274--274
-[]  []\OT1/cmtt/m/n/10 conf_data[i,[] []"upper"[][]][] []=[] []mean[][](samples
-Partial[][]$[][]alpha[, i])[] []+[] []2[] []*[] []sd[][](samplesPartial[][]$[][
-]alpha[, i])[][] 
- []
-
-
-Overfull \hbox (18.49072pt too wide) in paragraph at lines 275--275
-[]  []\OT1/cmtt/m/n/10 conf_data[i,[] []"lower"[][]][] []=[] []mean[][](samples
-Partial[][]$[][]alpha[, i])[] []-[] []2[] []*[] []sd[][](samplesPartial[][]$[][
-]alpha[, i])[][] 
- []
-
+ input line 149.
+(pdftex.def)             Requested size: 323.77621pt x 242.83215pt.
 [4 </Users/mikakoinaba/Desktop/sml310_mp1/p3a.jpg>]
-Underfull \vbox (badness 10000) detected at line 286
- []
+Package color Info: Redefining color shadecolor on input line 155.
 
-
-Underfull \vbox (badness 10000) detected at line 286
+Underfull \vbox (badness 2065) detected at line 239
  []
 
 [5]
-<figure/p3b-1.pdf, id=39, 505.89pt x 505.89pt>
-File: figure/p3b-1.pdf Graphic file (type pdf)
-<use figure/p3b-1.pdf>
-Package pdftex.def Info: figure/p3b-1.pdf  used on input line 287.
-(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
- [6 <./figure/p3b-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 296.
-<figure/p3bHist-1.pdf, id=48, 505.89pt x 505.89pt>
+Package color Info: Redefining color shadecolor on input line 243.
+<figure/p3bHist-1.pdf, id=42, 505.89pt x 505.89pt>
 File: figure/p3bHist-1.pdf Graphic file (type pdf)
 <use figure/p3bHist-1.pdf>
-Package pdftex.def Info: figure/p3bHist-1.pdf  used on input line 305.
+Package pdftex.def Info: figure/p3bHist-1.pdf  used on input line 248.
 (pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
-Package color Info: Redefining color shadecolor on input line 312.
-Package color Info: Redefining color shadecolor on input line 322.
-<figure/p3cNoHist-1.pdf, id=49, 505.89pt x 505.89pt>
-File: figure/p3cNoHist-1.pdf Graphic file (type pdf)
-<use figure/p3cNoHist-1.pdf>
-Package pdftex.def Info: figure/p3cNoHist-1.pdf  used on input line 344.
+ [6]
+<figure/p3bHist-2.pdf, id=47, 505.89pt x 505.89pt>
+File: figure/p3bHist-2.pdf Graphic file (type pdf)
+<use figure/p3bHist-2.pdf>
+Package pdftex.def Info: figure/p3bHist-2.pdf  used on input line 253.
 (pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
- [7 <./figure/p3bHist-1.pdf>] [8 <./figure/p3cNoHist-1.pdf>] (./mikako_sam.aux)
- ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
+
+ []
+
+[7 <./figure/p3bHist-1.pdf> <./figure/p3bHist-2.pdf>]
+Package color Info: Redefining color shadecolor on input line 261.
+Package color Info: Redefining color shadecolor on input line 310.
+ [8]
+<figure/p3cNoData-1.pdf, id=67, 505.89pt x 505.89pt>
+File: figure/p3cNoData-1.pdf Graphic file (type pdf)
+<use figure/p3cNoData-1.pdf>
+Package pdftex.def Info: figure/p3cNoData-1.pdf  used on input line 327.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+Package color Info: Redefining color shadecolor on input line 332.
+
+Overfull \vbox (0.75587pt too high) detected at line 350
+ []
+
+[9 <./figure/p3cNoData-1.pdf>]
+<figure/p3cPartial-1.pdf, id=76, 505.89pt x 505.89pt>
+File: figure/p3cPartial-1.pdf Graphic file (type pdf)
+<use figure/p3cPartial-1.pdf>
+Package pdftex.def Info: figure/p3cPartial-1.pdf  used on input line 351.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+Package color Info: Redefining color shadecolor on input line 357.
+ [10 <./figure/p3cPartial-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 401.
+<figure/p3cCompleteData-1.pdf, id=85, 505.89pt x 505.89pt>
+File: figure/p3cCompleteData-1.pdf Graphic file (type pdf)
+<use figure/p3cCompleteData-1.pdf>
+Package pdftex.def Info: figure/p3cCompleteData-1.pdf  used on input line 420.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--426
+
+ []
+
+[11 <./figure/p3cCompleteData-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 427--428
+
+ []
+
+[12] (./mp1_mikako_sam.aux) ) 
 Here is how much of TeX's memory you used:
- 2113 strings out of 492649
- 31520 string characters out of 6129622
- 113365 words of memory out of 5000000
- 5970 multiletter control sequences out of 15000+600000
- 5186 words of font info for 20 fonts, out of 8000000 for 9000
+ 2129 strings out of 492649
+ 31885 string characters out of 6129622
+ 110246 words of memory out of 5000000
+ 5979 multiletter control sequences out of 15000+600000
+ 7923 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,7n,32p,485b,284s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb
-></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
-sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on mikako_sam.pdf (8 pages, 3193165 bytes).
+ 41i,7n,32p,1000b,284s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2018/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmitt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr17.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmtt10.pfb>
+Output written on mp1_mikako_sam.pdf (12 pages, 2172023 bytes).
 PDF statistics:
- 90 PDF objects out of 1000 (max. 8388607)
- 62 compressed objects within 1 object stream
+ 130 PDF objects out of 1000 (max. 8388607)
+ 90 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
